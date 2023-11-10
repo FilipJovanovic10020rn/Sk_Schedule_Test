@@ -1,12 +1,90 @@
 package rs.raf;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import rs.raf.classes.Classroom;
+import rs.raf.classes.Schedule;
+import rs.raf.classes.Term;
+import rs.raf.enums.AddOns;
+import rs.raf.schedule_management.ClassSchedule;
+import rs.raf.schedule_management.ScheduleManager;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Main {
+
     public static void main(String[] args) {
+        String className = "rs.raf.Implementation1";
+
+        try {
+            Class.forName(className);
+        }
+        catch (Exception e){
+
+        }
+        ClassSchedule classSchedule = ScheduleManager.getClassScheduler();
+
+        List<Classroom> classrooms = new ArrayList<>();
+        //TODO promeniti da ako je null prodje
+        classrooms.add(classSchedule.createClassroom(classrooms,"Ucionica",2,AddOns.PEN));
+
+        System.out.println(classrooms.get(0).getName());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        Schedule schedule = null;
+        try {
+            Date startDate = dateFormat.parse("01.10.2023");
+            Date endDate = dateFormat.parse("01.12.2023");
+
+            // Assuming classSchedule is an instance of the class where initializeSchedule is defined
+            schedule = classSchedule.initializeSchedule("kita", classrooms, startDate, endDate, 12, 20);
+        } catch (ParseException e) {
+            e.printStackTrace(); // Handle the parsing exception appropriately
+        }
+        if(schedule==null){
+            System.out.println("pukli smo ko picke");
+        }
+
+        try {
+            Date startDate = dateFormat.parse("01.10.2023");
+//            classSchedule.createClass(schedule, 13, 3, "Ucionica", "SK", "Surla", startDate, startDate);
+            // OVO PROLAZI
+//            classSchedule.createClass(schedule, 13, 1, "Ucionica", "SK", "Surla", startDate, null);
+
+            List<Term> termList = classSchedule.findTerms(schedule,startDate,2,true,"Ucionica");
+
+            for(Term term : termList){
+                System.out.println(term.getClassroom());
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+//        try {
+//            List<Classroom> classroomList = classSchedule.findClassrooms(schedule,AddOns.COMPUTERS);
+//            //                                classSchedule.findClassrooms(capacity,addOns.toArray(new AddOns[0]));
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+
+//        System.out.println(classroomList.get(0).getName());
+        System.out.println("KURCINA");
+
+    }
+
+    public static void main1(String[] args) {
+
+        String className = "rs.raf.Implementation1";
+        try {
+            Class.forName(className);
+        }
+        catch (Exception e){
+
+        }
+        ClassSchedule classSchedule = ScheduleManager.getClassScheduler();
+
 
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -88,7 +166,7 @@ public class Main {
                                 }
 
                                 //OVDE MOZES SE POZIVA METODA PROSLEDJUJE SE cpacity i addons
-                                findClassrooms(capacity,addOns.toArray(new AddOns[0]));
+//                                classSchedule.findClassrooms(schedule,capacity,addOns.toArray(new AddOns[0]));
                                 // Add code for Suboption 1
                                 break;
                             case 2:
