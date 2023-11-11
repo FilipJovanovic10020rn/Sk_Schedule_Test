@@ -115,7 +115,8 @@ public class Main {
             System.out.println("5. Reschedule class");
             System.out.println("6. Open find classroom menu");
             System.out.println("7. Open find term menu");
-            System.out.println("8. Exit");
+            System.out.println("8. Open export/import menu");
+            System.out.println("9. Exit");
             System.out.print("Enter your choice: ");
 
             // Get user choice
@@ -226,17 +227,17 @@ public class Main {
                     break;
                 case 6:
                     int subChoice1;
-                    do {
-                        // Display submenu
-                        System.out.println("Find classroom menu:");
-                        System.out.println("1. Find classrom with capacity and addons");
-                        System.out.println("2. Find classrom with addons");
-                        System.out.println("3. Find classrom with capacity");
-                        System.out.println("4. Back to main menu");
-                        System.out.print("Enter your choice: ");
+                        do {
+                            // Display submenu
+                            System.out.println("Find classroom menu:");
+                            System.out.println("1. Find classrom with capacity and addons");
+                            System.out.println("2. Find classrom with addons");
+                            System.out.println("3. Find classrom with capacity");
+                            System.out.println("4. Back to main menu");
+                            System.out.print("Enter your choice: ");
 
-                        // Get user choice for submenu
-                        subChoice1 = scanner.nextInt();
+                            // Get user choice for submenu
+                            subChoice1 = scanner.nextInt();
 
                         // Process user choice for submenu
                         switch (subChoice1) {
@@ -622,6 +623,89 @@ public class Main {
                     }while (subChoice2 != 9);
                     break;
                 case 8:
+                    int subChoice3;
+                    do {
+                        // Display submenu
+                        System.out.println("Import/Export menu:");
+                        System.out.println("1. Export CSV");
+                        System.out.println("2. Import CSV");
+                        System.out.println("3. Export JSON");
+                        System.out.println("4. Import JSON");
+                        System.out.println("5. Export PDF");
+                        System.out.println("6. Import PDF");
+                        System.out.println("7. Back to main menu");
+                        System.out.print("Enter your choice: ");
+
+                        // Get user choice for submenu
+                        subChoice3 = scanner.nextInt();
+
+                        // Process user choice for submenu
+                        switch (subChoice3) {
+                            case 1:
+                                System.out.println("Please enter file path to export CSV to:");
+                                input = scanner.next();
+                                try {
+                                    classSchedule.exportCSV(schedule,input);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 2:
+                                System.out.println("Please enter file path for CSV import:");
+                                input = scanner.next();
+                                try {
+                                    classSchedule.importCSV(schedule,input);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 3:
+                                System.out.println("Please enter file path to export JSON to:");
+                                input = scanner.next();
+                                try {
+                                    classSchedule.exportJSON(schedule,input);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 4:
+                                System.out.println("Please enter file path for JSON import:");
+                                input = scanner.next();
+                                try {
+                                    classSchedule.importJSON(schedule,input);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 5:
+                                System.out.println("Please enter file path to export PDF to:");
+                                input = scanner.next();
+                                try {
+                                    classSchedule.exportPDF(schedule,input);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 6:
+                                System.out.println("Please enter file path for PDF import:");
+                                input = scanner.next();
+                                try {
+                                    classSchedule.importPDF(schedule,input);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case 7:
+                                System.out.println("Returning to the main menu");
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please enter a valid option.");
+                                break;
+                        }
+
+                    } while (subChoice3 != 7);
+                    break;
+                case 9:
                     System.out.println("Exiting the program. Goodbye!");
                     break;
                 default:
@@ -633,7 +717,7 @@ public class Main {
                 // Handle the exception or log it as needed
             }
 
-        } while (choice != 8);
+        } while (choice != 9);
 
         // Close the scanner
         scanner.close();
