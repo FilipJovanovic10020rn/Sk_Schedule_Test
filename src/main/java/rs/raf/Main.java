@@ -185,7 +185,6 @@ public class Main {
                         duration = Integer.parseInt(info[1]);
                         System.out.println(info[6]);
                         System.out.println(toDate);
-
                             classSchedule.createClass(schedule, startTime, duration, info[2], info[3], info[4], fromDate, toDate);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -353,7 +352,10 @@ public class Main {
                                     duration = Integer.parseInt(info[1]);
 
                                     List<Term> termList = classSchedule.findTerms(schedule,fromDate,duration);
-                                    Collections.sort(termList, Comparator.comparingInt(Term::getStartTime));
+                                    Collections.sort(termList, Comparator
+                                            .comparing(Term::getDate)
+                                            .thenComparing(Term::getStartTime));
+
                                     System.out.println("The free terms for " +fromDate+ " with duration of "+ duration+ " are:");
                                     for(Term term : termList){
                                         System.out.println("Classroom: " + term.getClassroom().getName() +
@@ -379,7 +381,10 @@ public class Main {
                                     else
                                         free = false;
                                     List<Term> termList = classSchedule.findTerms(schedule,fromDate,duration,free,info[3]);
-                                    Collections.sort(termList, Comparator.comparingInt(Term::getStartTime));
+                                    Collections.sort(termList, Comparator
+                                            .comparing(Term::getDate)
+                                            .thenComparing(Term::getStartTime));
+
                                     if(free)
                                         System.out.println("The free terms for classroom "+ info[3] +" on " +fromDate+ " with duration of "+ duration+ " are:");
                                     else
@@ -428,7 +433,10 @@ public class Main {
 
 
                                     List<Term> termList = classSchedule.findTerms(schedule,fromDate,duration,free,capacity,addOns.toArray(new AddOns[0]));
-                                    Collections.sort(termList, Comparator.comparingInt(Term::getStartTime));
+                                    Collections.sort(termList, Comparator
+                                            .comparing(Term::getDate)
+                                            .thenComparing(Term::getStartTime));
+
                                     if(free)
                                         System.out.println("The free terms with capacity "+ capacity +" and "+ addonsString +" on " +fromDate);
                                     else
@@ -460,7 +468,9 @@ public class Main {
                                     capacity = Integer.parseInt(info[3]);
 
                                     List<Term> termList = classSchedule.findTerms(schedule,fromDate,duration,free,capacity);
-                                    Collections.sort(termList, Comparator.comparingInt(Term::getStartTime));
+                                    Collections.sort(termList, Comparator
+                                            .comparing(Term::getDate)
+                                            .thenComparing(Term::getStartTime));
 
                                     if(free)
                                         System.out.println("The free terms for " +fromDate+ " with duration of "+ duration+ " and capacity of "+capacity+":");
@@ -507,7 +517,10 @@ public class Main {
                                     }
 
                                     List<Term> termList = classSchedule.findTerms(schedule,fromDate,duration,free,addOns.toArray(new AddOns[0]));
-                                    Collections.sort(termList, Comparator.comparingInt(Term::getStartTime));
+                                    Collections.sort(termList, Comparator
+                                            .comparing(Term::getDate)
+                                            .thenComparing(Term::getStartTime));
+
                                     if(free)
                                         System.out.println("The free terms with duration "+ duration +" and "+ addonsString +" on " +fromDate);
                                     else
@@ -563,7 +576,11 @@ public class Main {
                                 try {
 
                                     List<Term> termList = classSchedule.findTerms(schedule,info[0]);
-                                    Collections.sort(termList, Comparator.comparingInt(Term::getStartTime));
+
+                                    Collections.sort(termList, Comparator
+                                            .comparing(Term::getDate)
+                                            .thenComparing(Term::getStartTime)
+                                    );
 
                                     System.out.println("Terms when you can listen to " + info[0]+ ":");
 
