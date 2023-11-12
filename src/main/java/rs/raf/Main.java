@@ -14,70 +14,12 @@ import java.util.*;
 
 public class Main {
 
-    public static void main1(String[] args) {
-        String className = "rs.raf.Implementation1";
-
-        try {
-            Class.forName(className);
-        }
-        catch (Exception e){
-
-        }
-        ClassSchedule classSchedule = ScheduleManager.getClassScheduler();
-
-        List<Classroom> classrooms = new ArrayList<>();
-        //TODO promeniti da ako je null prodje
-       // classrooms.add(classSchedule.createClassroom(classrooms,"Ucionica",2,AddOns.PEN));
-
-        System.out.println(classrooms.get(0).getName());
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-        Schedule schedule = null;
-        try {
-            Date startDate = dateFormat.parse("01.10.2023");
-            Date endDate = dateFormat.parse("01.12.2023");
-
-            // Assuming classSchedule is an instance of the class where initializeSchedule is defined
-            schedule = classSchedule.initializeSchedule("kita", classrooms, startDate, endDate, 12, 20);
-        } catch (ParseException e) {
-            e.printStackTrace(); // Handle the parsing exception appropriately
-        }
-        if(schedule==null){
-            System.out.println("pukli smo ko picke");
-        }
-
-        try {
-            Date startDate = dateFormat.parse("01.10.2023");
-//            classSchedule.createClass(schedule, 13, 3, "Ucionica", "SK", "Surla", startDate, startDate);
-            // OVO PROLAZI
-//            classSchedule.createClass(schedule, 13, 1, "Ucionica", "SK", "Surla", startDate, null);
-
-            List<Term> termList = classSchedule.findTerms(schedule,startDate,2,true,"Ucionica");
-
-            for(Term term : termList){
-                System.out.println(term.getClassroom());
-            }
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-//        try {
-//            List<Classroom> classroomList = classSchedule.findClassrooms(schedule,AddOns.COMPUTERS);
-//            //                                classSchedule.findClassrooms(capacity,addOns.toArray(new AddOns[0]));
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
-//        System.out.println(classroomList.get(0).getName());
-        System.out.println("KURCINA");
-
-    }
-
     public static void main(String[] args) {
 
-        String className = "rs.raf.Implementation1";
+        String impl = args.length>0 ? args[0] : "single";
+        String className = impl.equals("reacuring") ? "rs.raf.Implementation2" : "rs.raf.Implementation1";
+
+
         try {
             Class.forName(className);
         } catch (Exception e) {
@@ -104,6 +46,8 @@ public class Main {
         int duration;
         boolean free;
         ArrayList<AddOns> addOns = new ArrayList<>();
+        List<Classroom> classroomsToPrint = new ArrayList<>();
+
 
         do {
             // Display menu
@@ -173,7 +117,7 @@ public class Main {
                     }
                     break;
                 case 3:
-                    System.out.println("Please enter info to add class, example: start-time,duration,classroom-name,lecture-name,profesor,fromDate,toDate");
+                    System.out.println("Please enter info to add class, example: start-time,duration,classroom-name,lecture-name,profesor,fromDate,toDate (same date for single class)");
                     input = scanner.next();
                     Arrays.fill(info, null);
                     info = input.split(",");
@@ -184,8 +128,8 @@ public class Main {
                         toDate = dateFormat.parse(info[6]);
                         startTime = Integer.parseInt(info[0]);
                         duration = Integer.parseInt(info[1]);
-                        System.out.println(info[6]);
-                        System.out.println(toDate);
+//                        System.out.println(info[6]);
+//                        System.out.println(toDate);
                             classSchedule.createClass(schedule, startTime, duration, info[2], info[3], info[4], fromDate, toDate);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -262,10 +206,14 @@ public class Main {
                                 }
 
                                 try {
-                                    classSchedule.findClassrooms(schedule, capacity, addOns.toArray(new AddOns[0]));
+                                    classroomsToPrint = classSchedule.findClassrooms(schedule, capacity, addOns.toArray(new AddOns[0]));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+                                for(Classroom c : classroomsToPrint){
+                                    System.out.println(c.toString());
+                                }
+                                classroomsToPrint.clear();
                                 addOns.clear();
                                 break;
                             case 2:
@@ -290,10 +238,14 @@ public class Main {
                                 }
 
                                 try {
-                                    classSchedule.findClassrooms(schedule, addOns.toArray(new AddOns[0]));
+                                    classroomsToPrint = classSchedule.findClassrooms(schedule, addOns.toArray(new AddOns[0]));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+                                for(Classroom c : classroomsToPrint){
+                                    System.out.println(c.toString());
+                                }
+                                classroomsToPrint.clear();
                                 addOns.clear();
                                 // Add code for Suboption 2
                                 break;
@@ -303,11 +255,16 @@ public class Main {
                                 Arrays.fill(info, null);
                                 info = input.split(",");
                                 capacity = Integer.parseInt(info[0]);
+
                                 try {
-                                    System.out.println((classSchedule.findClassrooms(schedule, capacity)).toString());
+                                    classroomsToPrint = classSchedule.findClassrooms(schedule, capacity);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
+                                for(Classroom c : classroomsToPrint){
+                                    System.out.println(c.toString());
+                                }
+                                classroomsToPrint.clear();
 
                                 break;
                             case 4:
@@ -333,7 +290,7 @@ public class Main {
                         System.out.println("5. Find terms with date, duration, free/taken and addons");
                         System.out.println("6. Find all terms by date for professor");
                         System.out.println("7. Find all terms by class name");
-                        System.out.println("8. Find term info for date and time");
+                        System.out.println("8. Find lecture info for date and time");
                         System.out.println("9. To return to the main menu");
                         System.out.print("Enter your choice: ");
 
