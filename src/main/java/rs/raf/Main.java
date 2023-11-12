@@ -16,14 +16,16 @@ public class Main {
 
     public static void main(String[] args) {
 
+
         String impl = args.length>0 ? args[0] : "single";
         String className = impl.equals("reacuring") ? "rs.raf.Implementation2" : "rs.raf.Implementation1";
-
+//        String className = "rs.raf.Implementation1";
+//        System.out.println(className);
 
         try {
             Class.forName(className);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         ClassSchedule classSchedule = ScheduleManager.getClassScheduler();
         Schedule schedule = null;
